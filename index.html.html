@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Caso RCP: O Desmaio na Quadra</title>
+<style>
+:root{--bg:#f7ebe1;--pat:#f0dccf;--card:#fffaf4;--fg:#3b2124;--mut:#6d4a4c;--bd:#7a2e35;--sh:#d9aea4;--tb:#b8434a;--tbfg:#fff6ef;--pk:#f2a39a;--ac:#f2a39a;--acfg:#3b2124;--bt:#f6d58e;--fill:#c9484f;--ok:#2f6b45;--okbg:#e1f0dc;--bad:#a1262f;--badbg:#fbe0dc;--pf:"Press Start 2P",ui-monospace,monospace;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241416;--pat:#2b191c;--card:#35201f;--fg:#fbeee6;--mut:#d9bdb4;--bd:#e0877f;--sh:#0d0708;--tb:#9e2f3a;--tbfg:#fff3ec;--fill:#e0575f;--ok:#a6dcb3;--okbg:#1f3a2a;--bad:#ff9aa3;--badbg:#4a1d26;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#241416;--pat:#2b191c;--card:#35201f;--fg:#fbeee6;--mut:#d9bdb4;--bd:#e0877f;--sh:#0d0708;--tb:#9e2f3a;--tbfg:#fff3ec;--fill:#e0575f;--ok:#a6dcb3;--okbg:#1f3a2a;--bad:#ff9aa3;--badbg:#4a1d26;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;color:var(--fg);font:19px/1.5 "Pixelify Sans",ui-monospace,Consolas,monospace;background-color:var(--bg);background-image:linear-gradient(45deg,var(--pat) 25%,transparent 25%,transparent 75%,var(--pat) 75%),linear-gradient(45deg,var(--pat) 25%,transparent 25%,transparent 75%,var(--pat) 75%);background-size:32px 32px;background-position:0 0,16px 16px}
+main{max-width:720px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+h1{font:400 .95rem/1.6 var(--pf);margin:.3em 0;text-shadow:2px 2px 0 var(--pk)}
+h2{font:400 .85rem/1.6 var(--pf);margin:.3em 0 .7em}
+.card{position:relative;background:var(--card);border:3px solid var(--bd);box-shadow:6px 6px 0 var(--sh);padding:16px;margin:18px 0}
+.card::before{content:"caso_rcp.exe";display:block;background:var(--tb);color:var(--tbfg);font:400 .65rem/1 var(--pf);padding:10px;margin:-16px -16px 14px;border-bottom:3px solid var(--bd)}
+.card::after{content:"_ ▢ ✕";position:absolute;top:0;right:0;color:var(--tbfg);font:400 .65rem/1 var(--pf);padding:10px;letter-spacing:.2em}
+.tag{font:400 .62rem/1.7 var(--pf);color:var(--mut);margin:.2em 0}
+.hud{display:flex;align-items:center;gap:8px;margin:6px 0 14px}
+.lbl{font:400 .62rem/1 var(--pf);white-space:nowrap}
+.bar{display:flex;gap:3px;flex:1;height:20px;border:3px solid var(--bd);background:var(--card);padding:2px}
+.bar i{flex:1}.bar i.f{background:var(--fill)}.bar i.c{background:var(--bd)}
+.ban{display:flex;align-items:center;gap:14px;background:var(--bg);border:3px solid var(--bd);padding:10px 14px;margin-bottom:10px}
+.ban p{margin:0}.ban strong{font:400 .8rem/1.5 var(--pf)}
+.ic{flex:none;width:56px;height:56px;border:3px solid var(--bd);background:var(--bt);display:grid;place-items:center;font-size:1.8rem;box-shadow:3px 3px 0 var(--sh)}
+.dlg{margin:12px 0}
+.dlg p{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border:3px solid var(--bd);padding:8px 12px;margin:10px 0}
+.av{flex:none;width:32px;height:32px;border:3px solid var(--bd);background:var(--bt);color:var(--acfg);display:grid;place-items:center;font:400 .65rem/1 var(--pf)}
+button{font:inherit;cursor:pointer}
+.opt{display:block;width:100%;text-align:left;margin:12px 0;padding:12px 14px;border:3px solid var(--bd);background:var(--card);color:var(--fg);box-shadow:3px 3px 0 var(--sh)}
+.opt:hover:not(:disabled){background:var(--pk);color:var(--acfg)}
+.opt:active:not(:disabled){transform:translate(3px,3px);box-shadow:none}
+.opt:disabled{color:var(--fg);cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.go{background:var(--ac);color:var(--acfg);border:3px solid var(--bd);box-shadow:4px 4px 0 var(--sh);padding:12px 18px;font:400 .72rem/1.4 var(--pf);margin-top:10px}
+.go:active{transform:translate(4px,4px);box-shadow:none}
+.tg{flex:none;border:3px solid var(--bd);background:var(--card);color:var(--fg);width:46px;height:46px;font-size:1.3rem;box-shadow:3px 3px 0 var(--sh)}
+:focus-visible{outline:3px dashed var(--fg);outline-offset:3px}
+.fb{border:3px solid;padding:10px 12px;margin:12px 0}
+.fb.ok{border-color:var(--ok);background:var(--okbg)}.fb.bad{border-color:var(--bad);background:var(--badbg)}
+ul{padding-left:1.2em}li{margin:.3em 0}
+small,.src{color:var(--mut);font-size:.9rem}
+@media (prefers-reduced-motion:no-preference){.bar i.c{animation:bl 1s steps(2,jump-none) infinite}@keyframes bl{50%{opacity:.35}}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&display=swap">
+</head>
+<body>
+<main>
+<div class="top"><h1>🔍 Caso RCP: O Desmaio na Quadra</h1><button id="th" class="tg" aria-label="Mudar para modo escuro">🌙</button></div>
+<div id="app"></div>
+</main>
+<script>
+const Q=[
+{t:"Cena em pânico",s:"Quadra lotada. A professora Mayara, 48 anos, desabou no meio do jogo e a turma entra em pânico.",d:[["Kaio","ELA MORREU! ELA MORREU!"],["Camila","Alguém faz alguma coisa!"]],q:"Você está a poucos metros. O que faz primeiro?",o:[
+["Em voz firme: “Eu vou ajudar! Todo mundo para trás e tirem a bola da quadra!”, olhando o entorno antes de chegar nela.",1,"Uma ordem curta e concreta organiza o grupo, e olhar o entorno leva um instante. A AHA começa o atendimento por “verifique a segurança do local”."],
+["Gritar “CALMA!” até todo mundo se acalmar e só então ajudar.",0,"Pedir calma sem dizer o que fazer raramente funciona. Dê uma ordem concreta e já comece a agir."],
+["Correr até ela sem olhar em volta: cada segundo conta.",0,"Os segundos contam, mas olhar o entorno leva um instante. Se você tropeçar ou for atingido, vira outra vítima."],
+["Esperar a professora de Educação Física, que já deve estar chegando.",0,"Esperar alguém que talvez não venha é atraso. Quem chega primeiro começa."]]},
+{t:"Pânico alheio",s:"Você chega ao lado dela. Um colega puxa seu braço.",d:[["Julia","Não encosta! Pode piorar, deixa para os adultos!"]],q:"Qual é a melhor resposta?",o:[
+["“Ela não responde nem respira direito, e sem ajuda piora. Liga 192 e me avisa se algo mudar.”",1,"Resposta curta, sem briga e com uma tarefa para quem estava paralisado. Quem não responde e não respira normalmente já está em perigo."],
+["Soltar o braço e seguir calado: não é hora de conversar.",0,"Ignorar deixa o colega travado e sem função. Uma frase e uma tarefa transformam pânico em ajuda."],
+["“Você não entende nada de socorro, sai daqui!”",0,"Brigar gasta tempo e piora o clima. Foque no que precisa ser feito."],
+["Concordar e esperar os adultos, para não arriscar errar.",0,"O maior risco é não fazer nada. A AHA destaca o papel crucial da RCP feita por socorristas leigos."]]},
+{t:"Reconhecer",s:"Você chama “Professora?” e sacode os ombros dela. Nada. De vez em quando o peito dá um movimento brusco com um ronco, e depois fica muito tempo parado.",q:"O que fazer?",o:[
+["Virá-la de lado, em posição lateral, e esperar.",0,"Essa posição é para quem está inconsciente mas respirando normalmente. Aqui a respiração não é normal."],
+["Tratar como parada: não responde e não respira normalmente. Chamar ajuda e iniciar a RCP.",1,"Ofegos esporádicos (“gasping”) não são respiração normal. Vale o No-No-Go: Não respira? Não responde? Inicie a RCP!"],
+["Observar por mais um minuto para ter certeza.",0,"Esperar “ter certeza” atrasa a RCP. Com esses sinais, aja."],
+["Procurar o pulso no pescoço por 1 minuto antes de qualquer coisa.",0,"Leigos erram muito ao procurar pulso e perdem tempo. Resposta e respiração bastam."]]},
+{t:"Dividir tarefas",s:"Cinco colegas olham para você sem saber o que fazer.",d:[["Lauren","Deixa que eu faço essa massagem!"],["Isadora","Eu faço a massagem também!"]],q:"Qual divisão funciona melhor?",o:[
+["“Todo mundo faz RCP ao mesmo tempo: quanto mais mãos, melhor.”",0,"Só uma pessoa comprime por vez. Várias mãos no peito atrapalham."],
+["“Lauren, liga 192 e fica no viva-voz. Isadora, busca o DEA na secretaria. Kaio, abre o portão e guia o SAMU. Eu começo as compressões.”",1,"Funções específicas para pessoas específicas. A AHA destaca equipes com funções atribuídas."],
+["“Quem quiser ajudar que faça o que achar melhor.”",0,"Sem tarefa definida, ou todos ligam ou ninguém liga e ninguém busca o DEA."],
+["“Eu faço tudo sozinho para não ter erro.”",0,"Ninguém comprime, liga e busca o DEA ao mesmo tempo. Dividir tarefas é parte da RCP."]]},
+{t:"Ligação ao SAMU",s:"Lauren ligou e colocou no viva-voz.",d:[["SAMU","SAMU 192, qual é a emergência?"]],q:"Qual é a melhor resposta da Lauren?",o:[
+["Contar tudo o que aconteceu desde o começo do jogo.",0,"História longa atrasa a ambulância. Diga primeiro o local e a gravidade."],
+["“Mulher adulta, não responde e não respira normal. Quadra da escola, Rua das Flores, 100. Já estamos fazendo RCP.”",1,"Endereço e problema principal em poucas palavras. Depois siga o atendente: a AHA diz que as centrais devem orientar leigos a fazer RCP só com as mãos em adultos."],
+["“Acho que ela desmaiou”, e desligar para ajudar.",0,"“Desmaiou” subestima a gravidade, e desligar tira a orientação do atendente."],
+["Perguntar “o que eu faço?” antes de dizer onde estão.",0,"Sem endereço, nenhuma ambulância sai. Diga onde está primeiro."]]},
+{t:"Superfície",s:"Mayara caiu sobre um colchonete grosso de ginástica.",q:"Com ela sobre o colchonete macio, qual é a melhor decisão?",o:[
+["Comprimir assim mesmo, com mais força.",0,"O colchonete absorve a força, mesmo com mais esforço."],
+["Colocar um travesseiro sob a cabeça e comprimir.",0,"Travesseiro não resolve e o problema é a superfície."],
+["Com ajuda, puxar o corpo rápido para o piso firme e só então comprimir.",1,"A AHA orienta compressões com a pessoa em superfície firme. Mova rápido, em grupo, com o mínimo de atraso."],
+["Esperar a maca do SAMU para começar.",0,"Minutos sem RCP derrubam as chances. Mova e comece."]]},
+{t:"Corrigir a técnica",s:"Você cansa e Julia assume. Você observa: cotovelos dobrados, aperto lento e peso apoiado no peito entre as compressões.",q:"Qual correção resume o que ela precisa mudar?",o:[
+["Só acelerar. O resto não importa.",0,"Ritmo é só um ponto. Sem profundidade e retorno, correr não bombeia sangue."],
+["Só apertar mais forte. O resto é detalhe.",0,"Força sem soltar o peito mantém o coração sob pressão e ele não enche."],
+["Está tudo certo, o importante é não parar.",0,"Não parar é essencial, mas compressões lentas e sem retorno funcionam mal."],
+["Braços esticados, 100 a 120 por minuto e soltar todo o peso entre as compressões.",1,"Braços retos usam o peso do corpo, e o retorno completo deixa o coração encher. A frequência vem das diretrizes completas da AHA."]]},
+{t:"Boca a boca",s:"Uma colega acompanha as compressões.",d:[["Camila","Tem que fazer boca a boca também, senão não adianta nada!"]],q:"Como responder?",o:[
+["“No adulto, o atendente orienta só compressões. Com treino, 30 compressões e 2 ventilações também é aceitável.”",1,"A AHA orienta leigos a fazer RCP só com as mãos em adultos pela central e considera aceitável 30:2."],
+["“Você tem razão. Vamos parar para fazer boca a boca.”",0,"Parar para ventilar sem treino atrasa as compressões. A AHA enfatiza minimizar interrupções."],
+["“Boca a boca é proibido, nunca faça.”",0,"Não é proibido: é aceitável para quem tem treino. Só não é obrigatório para leigos."],
+["“Compressões só valem com 10 ventilações seguidas.”",0,"Ventilar demais é prejudicial: a AHA orienta evitar hiperventilação."]]},
+{t:"Cansaço e troca",s:"Passaram cerca de 2 minutos. Seus braços tremem e Kaio se oferece para trocar.",q:"Como fazer a troca?",o:[
+["Insistir até não aguentar: trocar interrompe a RCP.",0,"O cansaço derruba a qualidade. Trocar a cada cerca de 2 minutos, ou antes, faz parte do plano."],
+["Parar, descansar um minuto e depois chamar o próximo.",0,"Um minuto parado é tempo demais sem circulação."],
+["Combinar com quem assume, que se posiciona ao lado, e recomeçar de imediato, com a menor pausa possível.",1,"A qualidade cai com o cansaço e pausas reduzem as chances. A AHA reforça minimizar interrupções."],
+["Trocar, mas o novo confere o pulso por 30 segundos antes.",0,"Checar pulso atrasa, e leigos erram. Quem assume simplesmente recomeça."]]},
+{t:"O DEA analisa",s:"Isadora chega com o DEA e as pás já estão coladas no peito da professora.",d:[["DEA","Analisando o ritmo. Não toque no paciente."]],q:"O que fazer agora?",o:[
+["Continuar comprimindo para não perder tempo.",0,"Movimento atrapalha a análise e pode gerar erro."],
+["Apertar o botão de ligar de novo, caso não tenha ouvido.",0,"Mexer no aparelho desorganiza as instruções. Aguarde e siga a voz."],
+["Arrancar e recolocar as pás para garantir.",0,"Se o aparelho não reclamou das pás, não mexa nelas."],
+["Parar, afastar as mãos, dizer “Ninguém encosta!” e olhar ao redor.",1,"A análise exige paciente imóvel. O DEA só indica choque se for necessário, e antes dele todos devem estar afastados."]]},
+{t:"Privacidade",s:"Para colar as pás, o peito precisa ficar acessível. Os colegas olham constrangidos e alguns apontam celulares.",d:[["Kaio","Não vou deixar tirarem a roupa dela na frente de todo mundo!"]],q:"Qual é a melhor resposta?",o:[
+["“Vamos esperar o SAMU decidir isso.”",0,"Esperar só por constrangimento atrasa o choque. Mulheres recebem menos desfibrilação pública."],
+["Cortar a roupa toda dela para acabar logo.",0,"Expor mais do que o necessário humilha e não acelera o DEA."],
+["Desistir do DEA: a RCP já basta.",0,"RCP e DEA se complementam: a desfibrilação precoce é um dos pilares do atendimento."],
+["“Não precisa tirar tudo: eu só ajusto o sutiã. Vocês, façam uma roda e abaixem os celulares.”",1,"A AHA 2025 diz que pode ser aceitável ajustar o sutiã em vez de removê-lo. Proteger a privacidade ajuda todos a agir sem vergonha."]]},
+{t:"Depois do choque",s:"O DEA avisou “Choque indicado” e todos se afastaram. O choque foi dado. Agora o aparelho fala: “Choque realizado. Inicie a RCP.”",q:"E agora?",o:[
+["Checar o pulso por um minuto: o choque já devia ter resolvido.",0,"Checar pulso atrasa as compressões e o choque raramente normaliza tudo sozinho."],
+["Esperar a próxima análise do DEA para decidir se comprime.",0,"O DEA só reanalisa depois de um ciclo de compressões."],
+["Retomar as compressões imediatamente, sem checar pulso nem respiração.",1,"Depois do choque, a RCP volta na hora, e o DEA reanalisa em ciclos."],
+["Desligar o aparelho, já que o trabalho dele terminou.",0,"O DEA continua útil até a equipe assumir."]]},
+{t:"Ela reage",s:"Alguns minutos depois, Mayara tosse, mexe os braços e abre os olhos.",q:"O que fazer?",o:[
+["Continuar comprimindo até o SAMU chegar, por precaução.",0,"Comprimir quem tem circulação pode machucar. Pare e observe."],
+["Parar as compressões, deixá-la deitada, observar a respiração e manter o DEA ligado. Se piorar, recomeçar.",1,"Com sinais de vida e respiração normal, para-se a RCP, mas continua-se monitorando: ela pode piorar até o SAMU chegar."],
+["Levantá-la, dar água e levá-la ao banco da quadra.",0,"Ela está frágil e pode ter nova parada. Deixe-a deitada."],
+["Liberar para ir para casa, já que acordou.",0,"Mesmo acordada, ela precisa de avaliação médica imediata."]]},
+{t:"Capítulo extra: criança",s:"Na arquibancada, Saiury, 4 anos, irmão de uma colega, fica mole e arroxeado e não respira.",q:"O que muda em relação à professora?",o:[
+["Em criança, a RCP convencional inclui ventilações (30 compressões e 2 ventilações).",1,"Na criança, a parada costuma ser respiratória, e por isso a AHA orienta RCP convencional, com ventilações."],
+["Nada muda: só compressões, como no adulto.",0,"Para crianças a AHA orienta incluir as ventilações."],
+["Só ventilações, porque compressões machucam criança.",0,"Compressões continuam essenciais. A RCP imediata é o pilar do atendimento pediátrico."],
+["Esperar um pediatra, porque criança exige especialista.",0,"Esperar não ajuda. Ligue 192 e comece a RCP."]]},
+{t:"Capítulo extra: engasgo",s:"No intervalo, Gabriel, 16 anos, leva as mãos ao pescoço. Não consegue falar nem tossir e está arroxeando.",q:"Qual é a conduta?",o:[
+["Dar tapinhas leves, oferecer água e esperar.",0,"Água não resolve, e quem não consegue tossir nem falar tem obstrução grave."],
+["Fazer só compressões abdominais, sem chamar ajuda.",0,"A sequência alterna golpes nas costas com compressões abdominais, e o 192 deve ser acionado."],
+["Deitá-lo e começar compressões no peito.",0,"A RCP começa se ele perder a consciência. Enquanto está acordado, o objetivo é desobstruir a via aérea."],
+["Acionar o 192 e alternar 5 golpes nas costas com 5 compressões abdominais até o objeto sair ou ele desmaiar. Se desmaiar, iniciar a RCP.",1,"AHA 2025 para engasgo grave em adultos: ciclos de 5 golpes nas costas e 5 compressões abdominais, e RCP se a vítima perder a consciência."]]}
+];
+const IC=["🏐","🗣️","🔎","👥","📞","🧱","💪","🌬️","🔄","⚡","🛡️","💥","🌅","🧒","🥤"];const app=document.getElementById("app");let i=0,first=0,wrong=false;
+function intro(){app.innerHTML=`<div class="card"><h2>Missão</h2><p>Uma pessoa passa mal e você é o(a) detetive do socorro. Em 15 pistas, descubra o que fazer em uma parada cardiorrespiratória. Errou? Sem problema: o jogo explica por que a opção não funciona e você tenta de novo.</p><p class="tag">Baseado nas Diretrizes de RCP e ACE 2025 da American Heart Association.</p><p><small>Caso fictício. Este jogo não substitui um curso prático de primeiros socorros com manequim.</small></p><button class="go" id="start">▶ Press Start!</button></div>`;document.getElementById("start").onclick=()=>{i=0;first=0;show()}}
+const sh=a=>a.sort(()=>Math.random()-.5);function show(){wrong=false;const c=Q[i];app.innerHTML=`<div class="card"><div class="ban"><span class="ic" aria-hidden="true">${IC[i]}</span><div><p class="tag">Pista ${i+1} de ${Q.length}</p><strong>${c.t}</strong></div></div><div class="hud"><span class="lbl">EXP</span><div class="bar" role="progressbar" aria-label="Progresso do caso" aria-valuemin="0" aria-valuemax="${Q.length}" aria-valuenow="${i}">${Q.map((_,k)=>`<i class="${k<i?"f":k===i?"c":""}"></i>`).join("")}</div><span class="lbl">${i}/${Q.length}</span><span class="lbl" title="Acertos de primeira">★${first}</span></div><p>${c.s}</p>${c.d?`<div class="dlg">${c.d.map(l=>`<p><span class="av" aria-hidden="true">${l[0][0]}</span><span><strong>${l[0]}:</strong> “${l[1]}”</span></p>`).join("")}</div>`:""}<h2>${c.q}</h2><div id="opts">${sh(c.o.map((o,k)=>[o,k])).map(([o,k])=>`<button class="opt" data-k="${k}">${o[0]}</button>`).join("")}</div><div id="fb" aria-live="polite"></div><div id="nx"></div></div>`;
+document.getElementById("opts").onclick=e=>{const b=e.target.closest(".opt");if(!b)return;pick(b)};}
+function pick(b){const o=Q[i].o[+b.dataset.k],ok=o[1];b.disabled=true;b.classList.add(ok?"ok":"bad");b.insertAdjacentText("afterbegin",ok?"✔ ":"✖ ");
+const f=document.getElementById("fb");f.insertAdjacentHTML("beforeend",`<p class="fb ${ok?"ok":"bad"}"><strong>${ok?"Pista confirmada!":"Pista falsa."}</strong> ${o[2]}</p>`);
+if(ok){if(!wrong)first++;document.querySelectorAll(".opt").forEach(x=>x.disabled=true);const n=document.getElementById("nx");n.innerHTML=`<button class="go" id="next">▶ ${i<Q.length-1?"Próxima pista":"Ver o dossiê do caso"}</button>`;const nb=document.getElementById("next");nb.onclick=()=>{i++;i<Q.length?show():end()};nb.focus()}else wrong=true}
+function end(){const r=first===Q.length?"Detetive-chefe":first>=Q.length*.7?"Detetive de campo":"Detetive em treinamento";
+app.innerHTML=`<div class="card"><h2>Caso resolvido! 🎉</h2><p><strong>${r}</strong>: você acertou ${first} de ${Q.length} pistas de primeira.</p><p>${first===Q.length?"Você domina a sequência. Agora ensine alguém!":"Jogue de novo para fixar a sequência, ela só funciona se estiver na ponta da língua."}</p></div>
+<div class="card"><h2>Dossiê: o que fazer</h2><ul><li>Conferir se o local é seguro.</li><li>Chamar e tocar nos ombros. Se não responde e não respira normalmente, começar a RCP.</li><li>Ligar <strong>192 (SAMU)</strong>, pedir o DEA a uma pessoa específica e usar o viva-voz.</li><li>Comprimir o centro do peito, forte e rápido, com a pessoa deitada em superfície firme.</li><li>Usar o DEA assim que chegar, seguindo a voz do aparelho.</li><li>Só parar quando a equipe assumir, o DEA mandar ou a pessoa reagir.</li></ul>
+<h2>Dossiê: o que evitar</h2><ul><li>Esperar para “ver se melhora” ou perder tempo filmando e postando.</li><li>Levar a pessoa ao hospital por conta própria.</li><li>Apertar de leve por medo de machucar.</li><li>Discutir com quem está em pânico em vez de dar a ele uma tarefa.</li><li>Deixar a vergonha atrasar o uso do DEA.</li></ul>
+<h2>Quando buscar ajuda</h2><p>Sempre. Se alguém não responde e não respira normalmente, ligue 192 <em>antes</em> de qualquer outra coisa. Na dúvida, ligue: o atendente orienta você.</p><button class="go" id="again">↻ Jogar de novo</button></div>
+<div class="card"><h2>Sobre este material</h2><p><small><strong>Objetivo:</strong> ensinar adolescentes a reconhecer uma parada e a iniciar a RCP com segurança. Valores de frequência e profundidade das compressões vêm das diretrizes completas da AHA.</small></p><p>Projeto elaborado pelos alunos de medicina da IDOMED, Camila, Julia e Kaio, com o uso de IA, para propósitos educativos.<br>É claro, um jogo não substitui treino prático com manequim e feedback de instrutor!<br>Divirtam-se!</p>
+<p class="src"><strong>Fontes:</strong> (1) American Heart Association. Destaques das Diretrizes de RCP e ACE de 2025 (JN-1580), versão em português do Brasil, eccguidelines.heart.org. (2) Del Rios M, et al. Part 1: Executive Summary: 2025 AHA Guidelines for CPR and ECC. Circulation. 2025;152(suppl 2). (3) SAMU 192, Ministério da Saúde.</p></div>`;
+document.getElementById("again").onclick=()=>{intro();window.scrollTo(0,0)}}
+const th=document.getElementById("th"),rt=document.documentElement;
+const isD=()=>rt.dataset.theme?rt.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+const ic=()=>{th.textContent=isD()?"☀️":"🌙";th.setAttribute("aria-label",isD()?"Mudar para modo claro":"Mudar para modo escuro")};
+try{const s=localStorage.getItem("tema");if(s)rt.dataset.theme=s}catch(e){}
+th.onclick=()=>{rt.dataset.theme=isD()?"light":"dark";try{localStorage.setItem("tema",rt.dataset.theme)}catch(e){}ic()};
+ic();
+intro();
+</script>
+</body>
+</html>
